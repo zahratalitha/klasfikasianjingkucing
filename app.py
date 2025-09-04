@@ -16,19 +16,16 @@ model = tf.keras.models.load_model(model_path, compile=False)
 st.write("✅ Model berhasil dimuat")
 st.write("Input shape model:", model.input_shape)
 
-# Preprocessing gambar
 def preprocess(img: Image.Image):
-    if img.mode == "RGBA":
-        img = img.convert("RGB")
-    elif img.mode != "RGB":
-        img = img.convert("RGB")
-
+    img = img.convert("RGB")
     target_size = tuple(model.input_shape[1:3])
-    if img.size != target_size:
-        img = img.resize(target_size)
+    img = img.resize(target_size)
     img_array = np.asarray(img, dtype=np.float32) / 255.0
-    if img_array.shape[-1] != 3:
-        raise ValueError(f"Gambar harus punya 3 channel (RGB), dapat: {img_array.shape}")
+
+    if img_array.ndim == 2:  # grayscale
+        img_array = np.stack([img_array] * 3, axis=-1)
+    elif img_array.shape[-1] != 3:
+        raise ValueError(f"Gambar harus 3 channel (RGB), dapat: {img_array.shape}")
     return np.expand_dims(img_array, axis=0)
 
 uploaded_file = st.file_uploader("📤 Upload gambar:", type=["jpg", "jpeg", "png"])
