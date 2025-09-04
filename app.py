@@ -1,5 +1,7 @@
 import streamlit as st
 import tensorflow as tf
+import tensorflow as tf
+from tensorflow import keras
 import numpy as np
 from PIL import Image
 from huggingface_hub import hf_hub_download
@@ -15,6 +17,17 @@ model_path = hf_hub_download(
 model = tf.keras.models.load_model(model_path, compile=False)
 st.write("✅ Model berhasil dimuat")
 st.write("Input shape model:", model.input_shape)
+
+from tensorflow.keras.layers import Rescaling, Normalization
+
+model = keras.models.load_model(
+    model_path,
+    compile=False,
+    custom_objects={
+        "Rescaling": Rescaling,
+        "Normalization": Normalization,
+    }
+)
 
 def preprocess(img: Image.Image):
     img = img.convert("RGB")
