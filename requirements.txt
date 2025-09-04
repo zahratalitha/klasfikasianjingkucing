@@ -1,5 +1,7 @@
-streamlit
-tensorflow
-numpy
-pillow
+tensorflow==2.12.0
+keras==2.12.0
 huggingface_hub
+Pillow
+numpy
+matplotlib
+streamlit
