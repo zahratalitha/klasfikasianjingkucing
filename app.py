@@ -20,8 +20,12 @@ def preprocess(img):
     if img.size != target_size:
         img = img.resize(target_size)
     img_array = np.asarray(img, dtype=np.float32) / 255.0
-    return np.expand_dims(img_array, axis=0)
 
+    # Pastikan bentuknya (H, W, 3)
+    if img_array.shape[-1] != 3:
+        raise ValueError(f"Gambar harus punya 3 channel, dapat: {img_array.shape}")
+
+    return np.expand_dims(img_array, axis=0)
 
 uploaded_file = st.file_uploader("Upload gambar:", type=["jpg", "jpeg", "png"])
 
