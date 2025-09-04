@@ -7,8 +7,8 @@ from huggingface_hub import hf_hub_download
 st.title("🐶🐱 Klasifikasi Anjing vs Kucing")
 
 model_path = hf_hub_download(
-    repo_id="zahratalitha/klasifikasigambar",
-    filename="kucinganjing.h5"
+    repo_id="zahratalitha/anjingkucing",
+    filename="kucinganjing.keras"
 )
 model = tf.keras.models.load_model(model_path, compile=False)
 st.write("Input shape model:", model.input_shape)
